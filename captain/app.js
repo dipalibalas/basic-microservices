@@ -3,8 +3,10 @@ dotenv.config();
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const connect = require('./db/db');
+const rabbitMQ = require("./service/rabbit");
 
 const app = express();
+rabbitMQ.connect();
 
 
 app.use(express.json({ limit: '10kb' }));

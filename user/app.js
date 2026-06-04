@@ -1,20 +1,19 @@
 const dotenv = require('dotenv');
 dotenv.config();
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const connect = require('./db/db');
-
+const express = require("express");
 const app = express();
+const connect = require("./db/db");
+connect();
+const cookieParser = require("cookie-parser");
+const userRoutes = require("./routes/user.routes");
+const rabbitMQ = require("./service/rabbit");
 
-app.disable('x-powered-by');
+rabbitMQ.connect();
 
-app.use(express.json({ limit: '10kb' }));
-app.use(express.urlencoded({ extended: false, limit: '10kb' }));
+app.use(express.json({ limit: "10kb" }));
+app.use(express.urlencoded({ extended: false, limit: "10kb" }));
 app.use(cookieParser());
 
-const userRoutes = require('./routes/user.routes');
 app.use('/', userRoutes);
-
-connect();
 
 module.exports = app;
